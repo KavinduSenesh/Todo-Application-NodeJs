@@ -9,10 +9,26 @@ router.get("/", (req, res) => {
   res.json(todos);
 });
 
-router.post("/", (req, res) => {});
+router.post("/", (req, res) => {
+    const { task } = req.body;
+    const insertTodo = db.prepare(`INSERT INTO todos (user_id, task) VALUES (?, ?)`)
+    const result = insertTodo.run(req.userId, task)
+    res.json({ id: result.lastInsertRowid, task, completed: 0 })
+});
 
-router.put("/:id", (req, res) => {});
+router.put("/:id", (req, res) => {
+    const { task, completed } = req.body
+    const { id } = req.params
+    const updatedTodo = db.prepare(`UPDATE todos SET task = ?, completed = ? WHERE id = ?`) 
+    updatedTodo.run(task, completed, id)
+    res.json({ message: "Todo updated" })
+});
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", (req, res) => {
+    const { id } =req.params
+    const deleteTodo = db.prepare(`DELETE FRom todos WHERE id = ?`)
+    deleteTodo.run(id)
+    res.json({ message: "Todo deleted" })
+});
 
 export default router;

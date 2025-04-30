@@ -18,3 +18,30 @@ Content-Type: application/json
     "username": "kavindu",
     "password": "123456"
 }
+
+### Get All Todos
+GET http://localhost:5000/todos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ2MDI0MzgyLCJleHAiOjE3NDYxMTA3ODJ9.tZI72rg2NBuouj89S4y1eBqsXWZ9bpjRbOi5avql_v4
+
+### Save a Todo
+POST http://localhost:5000/todos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ2MDI0MzgyLCJleHAiOjE3NDYxMTA3ODJ9.tZI72rg2NBuouj89S4y1eBqsXWZ9bpjRbOi5avql_v4
+Content-Type: application/json
+
+{
+    "task": "run 1000M"
+}
+
+### Update a Todo
+PUT http://localhost:5000/todos/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ2MDI0MzgyLCJleHAiOjE3NDYxMTA3ODJ9.tZI72rg2NBuouj89S4y1eBqsXWZ9bpjRbOi5avql_v4
+Content-Type: application/json
+
+{
+    "task": "complete backend project",
+    "completed": 1
+}
+
+### Delete a Todo
+DELETE http://localhost:5000/todos/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ2MDI0MzgyLCJleHAiOjE3NDYxMTA3ODJ9.tZI72rg2NBuouj89S4y1eBqsXWZ9bpjRbOi5avql_v4
