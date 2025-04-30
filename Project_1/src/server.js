@@ -15,9 +15,7 @@ const __dirname = dirname(__filename);
 
 // Middleware
 app.use(express.json());
-// Serves the HTML file from the public folder
-// Tells express to serve static files from the public folder as assests /
-// file. Any requests for the css files will be resolved to the public folder
+
 app.use(express.static(path.join(__dirname, "../public")));
 
 // serving up the HTML file from the public folder

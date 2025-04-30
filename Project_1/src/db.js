@@ -1,7 +1,6 @@
 import { DatabaseSync } from "node:sqlite";
 const db = new DatabaseSync(":memory:");
 
-// Execute SQL staements from strings
 db.exec(`
     CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
