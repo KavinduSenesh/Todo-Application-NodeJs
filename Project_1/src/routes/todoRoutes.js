@@ -26,8 +26,9 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
     const { id } =req.params
-    const deleteTodo = db.prepare(`DELETE FRom todos WHERE id = ?`)
-    deleteTodo.run(id)
+    const userId = req.userId
+    const deleteTodo = db.prepare(`DELETE FRom todos WHERE id = ? and user_id = ?`)
+    deleteTodo.run(id, userId)
     res.json({ message: "Todo deleted" })
 });
 
