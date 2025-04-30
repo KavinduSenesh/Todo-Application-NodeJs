@@ -5,12 +5,45 @@ import db from "../db.js";
 
 const router = express.Router();
 
+// Register a new user endpoint /auth/register
 router.post("/register", (req, res) => {
+  const { username, password } = req.body;
+// Save the username and an irreversible encrypted password 
+// save kavindu@gmail.com and 12345678
 
-})
+// encrypt the password
+  const hashedPassword = bcrypt.hashSync(password, 8);
+
+  // Save the new user and hashed password to the db
+  try{
+    const insertUser = db.prepare(`INSERT INTO users (username, password)
+        VALUES (?, ?)`)
+    const result = insertUser.run(username, hashedPassword);
+
+    // now that we have a user, i want to add their first todo
+    const defaultTodo = `Add your first todo!`;
+    const insertTodo = db.prepare(`INSERT INTO todos (user_id, task)
+        VALUES (?, ?)`)
+    insertTodo.run(result.lastInsertRowid, defaultTodo);
+
+    // 
+  }catch(err){
+    console.log(err);
+    res.status(500).send("Error saving user to database");
+  }
+  
+  res.sendStatus(201);
+});
 
 router.post("/login", (req, res) => {
-    
-})
+// we get their email and we look up the password associated with that 
+// email in the database 
+// but we get it back and see its encrypted, which means that we cannot
+// compare it to the one the user just used trying to log in
+// 
+  const { username, password } = req.body;
+  console.log(username, password);
+  res.sendStatus(201);
+});
 
 export default router;
