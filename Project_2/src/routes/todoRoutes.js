@@ -1,23 +1,24 @@
-import express from "express";
-import db from "../db.js";
-import prisma from "../prismaClient.js";
+import express from 'express'
+import prisma from '../prismaClient.js'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", async (req, res) => {
-  const todos = await prisma.todos.findMany({
-    where: {
-        userId: req.userId
-    }
-  })
+// Get all todos for logged-in user
+router.get('/', async (req, res) => {
+    const todos = await prisma.todo.findMany({
+        where: {
+            userId: req.userId
+        }
+    })
 
-  res.json(todos);
-});
+    res.json(todos)
+})
 
-router.post("/", async (req, res) => {
-    const { task } = req.body;
-    
-    const todo = await prisma.todos.create({
+// Create a new todo
+router.post('/', async (req, res) => {
+    const { task } = req.body
+
+    const todo = await prisma.todo.create({
         data: {
             task,
             userId: req.userId
@@ -25,38 +26,37 @@ router.post("/", async (req, res) => {
     })
 
     res.json(todo)
-});
+})
 
-router.put("/:id", async (req, res) => {
-    const { task, completed } = req.body
+// Update a todo
+router.put('/:id', async (req, res) => {
+    const { completed } = req.body
     const { id } = req.params
-    
-    const updatedTodo = await prisma.todos.update({
+
+    const updatedTodo = await prisma.todo.update({
         where: {
             id: parseInt(id),
             userId: req.userId
         },
         data: {
-            task,
             completed: !!completed
         }
     })
-
     res.json(updatedTodo)
-});
+})
 
-router.delete("/:id", async (req, res) => {
+// Delete a todo
+router.delete('/:id', async (req, res) => {
     const { id } = req.params
     const userId = req.userId
-    
-    const DeletedTodo = await prisma.todos.delete({
+    await prisma.todo.delete({
         where: {
             id: parseInt(id),
             userId
         }
     })
 
-    res.json({ message: "Todo deleted" })
-});
+    res.send({ message: "Todo deleted" })
+})
 
-export default router;
+export default router

@@ -1,7 +1,6 @@
 {
-  "name": "project_2",
+  "name": "chapter_4",
   "version": "1.0.0",
-  "description": "A full stack todo application that uses a NodeJS backend, a PostgreSQL database, a Prisma ORM and JWT Authentication.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,12 +10,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "A dockerized full stack todo application that uses a NodeJS backend, a PostgreSQL database, a Prisma ORM, and JWT Authentication.",
   "dependencies": {
     "@prisma/client": "^6.7.0",
-    "bcryptjs": "^3.0.2",
-    "express": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.15.6",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
     "prisma": "^6.7.0"
   }
 }
