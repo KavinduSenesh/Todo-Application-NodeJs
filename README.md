@@ -153,4 +153,4 @@ This project demonstrates how to build a secure and scalable RESTful API using m
 
 Feel free to fork, contribute, or open issues.
 
-Made by Kavindu Snesh
+Made by Kavindu Senesh
