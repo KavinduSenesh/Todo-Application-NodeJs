@@ -1,34 +1,61 @@
 import express from "express";
 import db from "../db.js";
+import prisma from "../prismaClient.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  const getTodos = db.prepare("SELECT * FROM todos WHERE user_id = ?");
-  const todos = getTodos.all(req.userId);
+router.get("/", async (req, res) => {
+  const todos = await prisma.todos.findMany({
+    where: {
+        userId: req.userId
+    }
+  })
+
   res.json(todos);
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const { task } = req.body;
-    const insertTodo = db.prepare(`INSERT INTO todos (user_id, task) VALUES (?, ?)`)
-    const result = insertTodo.run(req.userId, task)
-    res.json({ id: result.lastInsertRowid, task, completed: 0 })
+    
+    const todo = await prisma.todos.create({
+        data: {
+            task,
+            userId: req.userId
+        }
+    })
+
+    res.json(todo)
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
     const { task, completed } = req.body
     const { id } = req.params
-    const updatedTodo = db.prepare(`UPDATE todos SET task = ?, completed = ? WHERE id = ?`) 
-    updatedTodo.run(task, completed, id)
-    res.json({ message: "Todo updated" })
+    
+    const updatedTodo = await prisma.todos.update({
+        where: {
+            id: parseInt(id),
+            userId: req.userId
+        },
+        data: {
+            task,
+            completed: !!completed
+        }
+    })
+
+    res.json(updatedTodo)
 });
 
-router.delete("/:id", (req, res) => {
-    const { id } =req.params
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params
     const userId = req.userId
-    const deleteTodo = db.prepare(`DELETE FRom todos WHERE id = ? and user_id = ?`)
-    deleteTodo.run(id, userId)
+    
+    const DeletedTodo = await prisma.todos.delete({
+        where: {
+            id: parseInt(id),
+            userId
+        }
+    })
+
     res.json({ message: "Todo deleted" })
 });
 
